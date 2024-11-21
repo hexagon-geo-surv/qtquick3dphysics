@@ -24,6 +24,7 @@ public:
 private Q_SLOTS:
     void initTestCase();
     void cleanup();
+    void cleanupTestCase();
     void testRendering_data();
     void testRendering();
 
@@ -78,6 +79,11 @@ void tst_BaselineQuick3DPhysics::cleanup()
     // Allow subsystems time to settle
     if (!aborted)
         QTest::qWait(grabberTimeout / 100);
+}
+
+void tst_BaselineQuick3DPhysics::cleanupTestCase()
+{
+    QBaselineTest::finalizeAndDisconnect();
 }
 
 void tst_BaselineQuick3DPhysics::testRendering_data()

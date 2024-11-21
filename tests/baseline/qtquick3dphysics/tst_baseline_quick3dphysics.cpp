@@ -229,14 +229,6 @@ quint16 tst_BaselineQuick3DPhysics::checksumFileOrDir(const QString &path)
     return 0;
 }
 
-#define main _realmain
-QTEST_MAIN(tst_BaselineQuick3DPhysics)
-#undef main
-
-int main(int argc, char *argv[])
-{
-    QBaselineTest::handleCmdLineArgs(&argc, &argv);
-    return _realmain(argc, argv);
-}
+QBASELINETEST_MAIN(tst_BaselineQuick3DPhysics)
 
 #include "tst_baseline_quick3dphysics.moc"

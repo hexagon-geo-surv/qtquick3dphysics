@@ -59,8 +59,8 @@ Item {
                         source: "#Cube"
                         scale: Qt.vector3d(2, 1, 2).times(0.01)
                         eulerRotation: Qt.vector3d(0, 90, 0)
-                        materials: DefaultMaterial {
-                            diffuseColor: "green"
+                        materials: PrincipledMaterial {
+                            baseColor: "green"
                         }
                     }
                 }
@@ -127,8 +127,8 @@ Item {
                         source: "#Cube"
                         scale: Qt.vector3d(2, 1, 2).times(0.01)
                         eulerRotation: Qt.vector3d(0, 90, 0)
-                        materials: DefaultMaterial {
-                            diffuseColor: "red"
+                        materials: PrincipledMaterial {
+                            baseColor: "red"
                         }
                     }
                 }
@@ -176,8 +176,8 @@ Item {
                     Model {
                         source: "#Cube"
                         scale: slide.extents.times(0.01)
-                        materials: DefaultMaterial {
-                            diffuseColor: "orange"
+                        materials: PrincipledMaterial {
+                            baseColor: "orange"
                         }
                     }
                 }

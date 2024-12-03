@@ -24,7 +24,7 @@
 #include <QtQuick3D/private/qquick3dobject_p.h>
 #include <QtQuick3D/private/qquick3dnode_p.h>
 #include <QtQuick3D/private/qquick3dmodel_p.h>
-#include <QtQuick3D/private/qquick3ddefaultmaterial_p.h>
+#include <QtQuick3D/private/qquick3dprincipledmaterial_p.h>
 #include <QtQuick3DUtils/private/qssgutils_p.h>
 
 #include <QtEnvironmentVariables>
@@ -623,12 +623,12 @@ void QPhysicsWorld::setupDebugMaterials(QQuick3DNode *sceneNode)
     for (auto color : { QColorConstants::Svg::chartreuse, QColorConstants::Svg::cyan,
                         QColorConstants::Svg::lightsalmon, QColorConstants::Svg::red,
                         QColorConstants::Svg::blueviolet, QColorConstants::Svg::black }) {
-        auto debugMaterial = new QQuick3DDefaultMaterial();
+        auto debugMaterial = new QQuick3DPrincipledMaterial();
         debugMaterial->setLineWidth(lineWidth);
         debugMaterial->setParentItem(sceneNode);
         debugMaterial->setParent(sceneNode);
-        debugMaterial->setDiffuseColor(color);
-        debugMaterial->setLighting(QQuick3DDefaultMaterial::NoLighting);
+        debugMaterial->setBaseColor(color);
+        debugMaterial->setLighting(QQuick3DPrincipledMaterial::NoLighting);
         debugMaterial->setCullMode(QQuick3DMaterial::NoCulling);
         m_debugMaterials.push_back(debugMaterial);
     }

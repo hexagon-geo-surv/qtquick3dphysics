@@ -51,7 +51,7 @@ class QAbstractRigidBody;
 class QAbstractPhysXNode;
 class QQuick3DModel;
 class QQuick3DGeometry;
-class QQuick3DDefaultMaterial;
+class QQuick3DPrincipledMaterial;
 class QPhysXWorld;
 class SimulationWorker;
 
@@ -247,7 +247,7 @@ private:
 
     QPhysXWorld *m_physx = nullptr;
     QQuick3DNode *m_viewport = nullptr;
-    QVector<QQuick3DDefaultMaterial *> m_debugMaterials;
+    QVector<QQuick3DPrincipledMaterial *> m_debugMaterials;
 
     friend class QQuick3DPhysicsMesh; // TODO: better internal API
     friend class QTriangleMeshShape; //####

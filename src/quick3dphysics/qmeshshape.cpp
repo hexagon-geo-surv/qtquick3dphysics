@@ -18,6 +18,7 @@
 #include <QtQml/qqmlcontext.h>
 
 #include <QtQuick3DUtils/private/qssgmesh_p.h>
+#include <QtQuick3DRuntimeRender/private/qssgrenderbuffermanager_p.h>
 #include <QtQuick3D/QQuick3DGeometry>
 
 #include "qmeshshape_p.h"
@@ -300,16 +301,14 @@ void QQuick3DPhysicsMesh::loadSsgMesh()
     if (m_ssgMesh.isValid())
         return;
 
+    // A bit ugly to use QSSGRenderPath here but it is just a wrapper for
+    // a QString and its hash.
+    m_ssgMesh = QSSGBufferManager::loadMeshData(QSSGRenderPath(m_meshPath));
+
     static const char *compTypes[] = { "Null",  "UnsignedInt8",  "Int8",    "UnsignedInt16",
                                        "Int16", "UnsignedInt32", "Int32",   "UnsignedInt64",
                                        "Int64", "Float16",       "Float32", "Float64" };
 
-    QFileInfo fileInfo = QFileInfo(m_meshPath);
-    if (fileInfo.exists()) {
-        QFile file(fileInfo.absoluteFilePath());
-        if (file.open(QFile::ReadOnly))
-            m_ssgMesh = QSSGMesh::Mesh::loadMesh(&file);
-    }
     qCDebug(lcQuick3dPhysics) << "Loaded SSG mesh from" << m_meshPath << m_ssgMesh.isValid()
                               << "draw" << int(m_ssgMesh.drawMode()) << "wind"
                               << int(m_ssgMesh.winding()) << "subs" << m_ssgMesh.subsets().count()
@@ -363,12 +362,9 @@ void QQuick3DPhysicsMesh::loadSsgMesh()
         qCWarning(lcQuick3dPhysics) << "Could not read mesh from" << m_meshPath;
 }
 
-QQuick3DPhysicsMesh *QQuick3DPhysicsMeshManager::getMesh(const QUrl &source,
-                                                         const QObject *contextObject)
+QQuick3DPhysicsMesh *QQuick3DPhysicsMeshManager::getMesh(const QUrl &source, QObject *contextObject)
 {
-    const QQmlContext *context = qmlContext(contextObject);
-    const auto resolvedUrl = context ? context->resolvedUrl(source) : source;
-    const auto qmlSource = QQmlFile::urlToLocalFileOrQrc(resolvedUrl);
+    const QString qmlSource = QQuick3DModel::translateMeshSource(source, contextObject);
     auto *mesh = sourceMeshHash.value(qmlSource);
     if (!mesh) {
         mesh = new QQuick3DPhysicsMesh(qmlSource);
